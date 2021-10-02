@@ -1,3 +1,4 @@
+import './App.css';
 import rules from './assets/rules.txt';
 import { useState, useEffect } from 'react';
 

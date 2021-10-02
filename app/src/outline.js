@@ -1,9 +1,6 @@
 import React from 'react';
-// eslint-disable-next-line
-import * as bs from 'bootstrap/dist/css/bootstrap.css';
-// eslint-disable-next-line
-import Styles from './App.css';
-// eslint-disable-next-line
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Parse, ProcessData } from './parse.js';
 import { renderRules } from './rules';
@@ -21,7 +18,7 @@ const SubChapter = ({ subchapters }) => (
 
 const DropdownMenu = ({ allData }) => (
   <div>
-    <Navbar.Collapse id="responsive-navbar-nav">
+    <Navbar.Collapse id="responsive-navbar-nav" sticky="top" expand="lg">
       <Nav className="mr-auto">
         {allData.map((items, index) => (
           <NavDropdown title={items.chapter} id="collapsible-nav-dropdown" key={index}>
@@ -40,7 +37,7 @@ export const ChapterOutline = () => {
   let rulesData = fetched[1];
 
   return (
-    <div>
+    <div className="fit_2_screen">
       <Search rulesData={rulesData} />
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Navbar.Brand>Rulebook</Navbar.Brand>

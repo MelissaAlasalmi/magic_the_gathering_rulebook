@@ -1,6 +1,5 @@
 import React from 'react';
-// eslint-disable-next-line
-import Styles from './App.css';
+import './App.css';
 import { Header, Footer } from './header';
 import { ChapterOutline } from './outline';
 

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import './App.css';
 
 const SearchHits = ({ items, index }) => (
-  <p style={{ color: 'white' }} key={index}>
+  <p key={index}>
     {items}
   </p>
 );
@@ -31,12 +31,8 @@ export const Search = ({ rulesData }) => {
   const [searchTerm, setSearchTerm] = useState('');
   return (
     <div>
-      <Row>
-        <Col>
-          <SearchInput setSearchTerm={setSearchTerm} />
-          <CarryOutSearch rulesData={rulesData} searchTerm={searchTerm} />
-        </Col>
-      </Row>
+      <SearchInput setSearchTerm={setSearchTerm} />
+      <CarryOutSearch rulesData={rulesData} searchTerm={searchTerm} />
     </div>
   );
 };
