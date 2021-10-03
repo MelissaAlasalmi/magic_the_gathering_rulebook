@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import './App.css';
 
 const Rules = ({ chapter, rules }) => (
-  <div className="scroll">
-    <p> {chapter} </p>
+  <div>
+    <h4> Subchapter {chapter} </h4>
     {rules.map((items, index) => (
       <p key={index}>
         {items.rule} {items.content[0]}

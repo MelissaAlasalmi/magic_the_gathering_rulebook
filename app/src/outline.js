@@ -1,10 +1,16 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { 
+  Nav, 
+  Navbar, 
+  NavDropdown,
+  Container, 
+  Row, 
+  Col
+} from 'react-bootstrap';
 import { Parse, ProcessData } from './parse.js';
 import { renderRules } from './rules';
-import { Search } from './search';
 
 const SubChapter = ({ subchapters }) => (
   <div>
@@ -16,9 +22,15 @@ const SubChapter = ({ subchapters }) => (
   </div>
 );
 
-const DropdownMenu = ({ allData }) => (
-  <div>
-    <Navbar.Collapse id="responsive-navbar-nav" sticky="top" expand="lg">
+const NavbarMenu = ({ allData }) => (
+  <Navbar
+    collapseOnSelect 
+    expand="md" 
+    bg="dark" 
+    variant="dark" 
+    sticky="top">
+    <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+    <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
         {allData.map((items, index) => (
           <NavDropdown title={items.chapter} id="collapsible-nav-dropdown" key={index}>
@@ -27,24 +39,28 @@ const DropdownMenu = ({ allData }) => (
         ))}
       </Nav>
     </Navbar.Collapse>
-  </div>
+  </Navbar>
 );
+
+const Menu = ({ allData }) => (
+  <Container fluid>
+      <NavbarMenu allData={allData}/>
+    <Row>
+      <Col id="subchapter"></Col>
+    </Row>
+    <Row>
+      <Col id="output"></Col>
+    </Row>
+  </Container>
+)
 
 export const ChapterOutline = () => {
   let data = Parse();
   let fetched = ProcessData(data);
   let allData = fetched[0];
-  let rulesData = fetched[1];
+  // let rulesData = fetched[1];
 
   return (
-    <div className="fit_2_screen">
-      <Search rulesData={rulesData} />
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand>Rulebook</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <DropdownMenu allData={allData} />
-      </Navbar>
-      <div id="output"></div>
-    </div>
-  );
+    <Menu allData={allData} />
+    );
 };

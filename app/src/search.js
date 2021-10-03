@@ -1,38 +1,52 @@
-import { useState } from 'react';
 import './App.css';
+import {useState} from 'react';
+import { 
+  Form,
+  FormControl
+} from 'react-bootstrap';
 
-const SearchHits = ({ items, index }) => (
-  <p key={index}>
-    {items}
-  </p>
-);
-
-const SearchInput = ({ setSearchTerm }) => {
-  const handleChange = (event) => setSearchTerm(event.target.value);
-  return <input type="text" placeholder="Search rules" onChange={handleChange} />;
+export const SearchInput = ({ setSearchTerm }) => {
+  return (
+    <Form className="d-flex">
+      <FormControl
+        type="search"
+        placeholder="Search rules"
+        onChange={event =>{setSearchTerm(event.target.value)}}
+        className="mr-2"
+        aria-label="Search"
+      />
+    </Form>
+  )
 };
 
-const CarryOutSearch = ({ rulesData, searchTerm }) => {
+export const CarryOutSearch = ({ rulesData, searchTerm }) => {
   return (
     <div>
       {rulesData
         .filter((values) => {
           if (values.toLowerCase().includes(searchTerm.toLowerCase()) && searchTerm !== '')
             return values;
+          else
+            return '';
         })
-        .map((items, index) => (
-          <SearchHits items={items} index={index} />
-        ))}
+        .map((items, index) =>
+          <p key={index}>{items}</p>
+        )}
     </div>
   );
 };
 
-export const Search = ({ rulesData }) => {
+export const Search = () => {
+
   const [searchTerm, setSearchTerm] = useState('');
-  return (
+
+  return(
     <div>
       <SearchInput setSearchTerm={setSearchTerm} />
-      <CarryOutSearch rulesData={rulesData} searchTerm={searchTerm} />
+      <CarryOutSearch 
+        // rulesData={rulesData} 
+        searchTerm={searchTerm}
+      />
     </div>
-  );
-};
+  )
+}
