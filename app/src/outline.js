@@ -9,42 +9,56 @@ import {
   Row, 
   Col
 } from 'react-bootstrap';
-import { Parse, ProcessData } from './parse.js';
-import { renderRules } from './rules';
+import ReactDOM from 'react-dom';
 
-const SubChapter = ({ subchapters }) => (
+const Subrules = ({ rule, subrules }) => (
   <div>
-    {subchapters.map((items, index) => (
-      <NavDropdown.Item onClick={() => renderRules(items.rules, items.subchapter)} key={index}>
-        {items.subchapter}
-      </NavDropdown.Item>
+    <h5>{rule}</h5>
+    {subrules.map((subrule, index) => (
+      <p key={index}>
+        {subrule.fields.subrule}
+      </p>
     ))}
   </div>
 );
 
-const NavbarMenu = ({ allData }) => (
-  <Navbar
-    collapseOnSelect 
-    expand="md" 
-    bg="dark" 
-    variant="dark" 
-    sticky="top">
-    <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+function renderSubrules(rule, subrules) {
+  let element = <Subrules rule={rule} subrules={subrules} />;
+  ReactDOM.render(element, document.getElementById('output'));
+}
+
+const Rules = ({ rules }) => (
+  <div>
+  {rules.map((rule, index) =>
+    <NavDropdown.Item onClick={() => renderSubrules(rule.fields.rule, rule.fields?.subrules)} key={index}>
+      {rule.fields.rule}
+    </NavDropdown.Item>)}
+  </div>
+);
+
+const DropdownMenu = ({ chapters }) => (
+  <div>
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
-        {allData.map((items, index) => (
-          <NavDropdown title={items.chapter} id="collapsible-nav-dropdown" key={index}>
-            <SubChapter subchapters={items.subchapters} />
+        {chapters.map((chapter, index) => (
+          <NavDropdown
+            id="collasible-nav-dropdown"
+            key={index}
+            title={chapter.fields.title}>
+            <Rules rules={chapter.fields.rules} />
           </NavDropdown>
         ))}
       </Nav>
     </Navbar.Collapse>
-  </Navbar>
+  </div>
 );
 
-const Menu = ({ allData }) => (
+export const ChapterOutline = ({chapters}) => (
   <Container fluid>
-      <NavbarMenu allData={allData}/>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <DropdownMenu chapters={chapters} />
+    </Navbar>
     <Row>
       <Col id="subchapter"></Col>
     </Row>
@@ -52,15 +66,4 @@ const Menu = ({ allData }) => (
       <Col id="output"></Col>
     </Row>
   </Container>
-)
-
-export const ChapterOutline = () => {
-  let data = Parse();
-  let fetched = ProcessData(data);
-  let allData = fetched[0];
-  // let rulesData = fetched[1];
-
-  return (
-    <Menu allData={allData} />
-    );
-};
+);
